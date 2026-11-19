@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.gbif</groupId>
+    <artifactId>motherpom</artifactId>
+    <version>59</version>
+  </parent>
+
+  <artifactId>gbif-eml-validation</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>GBIF EML validation</name>
+  <description>
+    Validates EML metadata documents: well-formedness, the declared schema (bundled, no network)
+    and the GBIF metadata quality rules. Shared by registry, the pipelines archive check and the
+    DwC-DP analyser.
+  </description>
+  <url>https://github.com/gbif/gbif-eml-validation</url>
+
+  <scm>
+    <connection>scm:git:git@github.com:gbif/gbif-eml-validation.git</connection>
+    <url>https://github.com/gbif/gbif-eml-validation</url>
+    <developerConnection>scm:git:git@github.com:gbif/gbif-eml-validation.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>gbif-release</id>
+      <url>https://repository.gbif.org/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>gbif-deploy</id>
+      <url>https://repository.gbif.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <properties>
+    <java.version>17</java.version>
+    <release.tagNameBase>gbif-eml-validation</release.tagNameBase>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <gbif-api.version>2.4.29</gbif-api.version>
+    <gbif-metadata-profile.version>3.1</gbif-metadata-profile.version>
+    <slf4j.version>2.0.17</slf4j.version>
+    <junit-jupiter.version>5.11.4</junit-jupiter.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>gbif-all</id>
+      <url>https://repository.gbif.org/content/groups/gbif</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <!-- Quality rules: the registry's own EML interpretation (Dataset, licence, citation authors) -->
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-api</artifactId>
+      <version>${gbif-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-metadata-profile-eml</artifactId>
+      <version>${gbif-metadata-profile.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
