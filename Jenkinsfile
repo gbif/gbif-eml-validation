@@ -27,7 +27,7 @@ pipeline {
         script {
           // Branch-qualified version, workspace only, never committed.
           // Example: feature/foo -> 1.0.0-FEATURE-FOO-SNAPSHOT
-          if (env.BRANCH_NAME != 'dev' && env.BRANCH_NAME != 'main' && !params.RELEASE) {
+          if (env.BRANCH_NAME != 'dev' && env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'main' && !params.RELEASE) {
             def suffix = env.BRANCH_NAME.replaceAll('[^a-zA-Z0-9.-]', '-').toUpperCase()
             sh """
               BASE_VERSION=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
@@ -55,7 +55,7 @@ pipeline {
       when {
         allOf {
           expression { params.RELEASE };
-          branch 'main';
+          branch 'master';
         }
       }
       environment {
@@ -65,7 +65,7 @@ pipeline {
         withMaven(globalMavenSettingsConfig: 'org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1387378707709',
                   mavenSettingsConfig: 'org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig1396361652540',
                   traceability: true) {
-          git branch: 'main', url: 'https://github.com/gbif/gbif-eml-validation.git'
+          git branch: 'master', url: 'https://github.com/gbif/gbif-eml-validation.git'
           sh 'mvn -B -Dresume=false release:prepare release:perform -U $RELEASE_ARGS'
         }
       }
